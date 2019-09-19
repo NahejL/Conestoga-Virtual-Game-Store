@@ -9,6 +9,8 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Conestoga_Virtual_Game_Store;
+using Microsoft.EntityFrameworkCore;
 
 namespace Conestoga_Virtual_Game_Store
 {
@@ -33,6 +35,9 @@ namespace Conestoga_Virtual_Game_Store
 
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+
+            services.AddDbContext<StoreDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("GameStoreDB")));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
