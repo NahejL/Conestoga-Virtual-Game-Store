@@ -4,14 +4,16 @@ using Conestoga_Virtual_Game_Store;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ConestogaVirtualGameStore.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    partial class StoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190920201640_mig6")]
+    partial class mig6
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -118,7 +120,7 @@ namespace ConestogaVirtualGameStore.Migrations
 
                     b.HasIndex("Employeeid");
 
-                    b.ToTable("Games");
+                    b.ToTable("games");
                 });
 
             modelBuilder.Entity("Conestoga_Virtual_Game_Store.Models.Member", b =>
@@ -132,7 +134,7 @@ namespace ConestogaVirtualGameStore.Migrations
 
                     b.HasKey("id");
 
-                    b.ToTable("Members");
+                    b.ToTable("members");
 
                     b.HasDiscriminator<string>("Discriminator").HasValue("Member");
                 });
@@ -335,7 +337,7 @@ namespace ConestogaVirtualGameStore.Migrations
             modelBuilder.Entity("Conestoga_Virtual_Game_Store.Models.Ownership", b =>
                 {
                     b.HasOne("Conestoga_Virtual_Game_Store.Models.Game")
-                        .WithMany("owners")
+                        .WithMany("members")
                         .HasForeignKey("Gameid");
 
                     b.HasOne("Conestoga_Virtual_Game_Store.Models.Member")

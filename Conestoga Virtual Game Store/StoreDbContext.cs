@@ -14,10 +14,21 @@ namespace Conestoga_Virtual_Game_Store
     {
         public StoreDbContext(DbContextOptions<StoreDbContext> options): base(options) { }
 
-        //Accessible Members
-        public DbSet<Game> games { get; set; }
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
 
-        public DbSet<Member> members { get; set; }
+        }
+
+        #region Database Sets
+        //Accessible Members
+        public DbSet<Game> Games { get; set; }
+
+        public DbSet<Member> Members { get; set; }
+
+        public DbSet<Moderator> Moderators { get; set; }
+
+        public DbSet<Employee> Employees { get; set; }
+        #endregion
 
     }
 

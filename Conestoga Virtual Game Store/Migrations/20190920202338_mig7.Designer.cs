@@ -4,14 +4,16 @@ using Conestoga_Virtual_Game_Store;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ConestogaVirtualGameStore.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    partial class StoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190920202338_mig7")]
+    partial class mig7
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -335,7 +337,7 @@ namespace ConestogaVirtualGameStore.Migrations
             modelBuilder.Entity("Conestoga_Virtual_Game_Store.Models.Ownership", b =>
                 {
                     b.HasOne("Conestoga_Virtual_Game_Store.Models.Game")
-                        .WithMany("owners")
+                        .WithMany("members")
                         .HasForeignKey("Gameid");
 
                     b.HasOne("Conestoga_Virtual_Game_Store.Models.Member")
