@@ -8,6 +8,10 @@ using System.Threading.Tasks;
 
 namespace Conestoga_Virtual_Game_Store.Models
 {
+    enum memberTypes
+    {
+        member, moderator, employee
+    }
     public class Member : Table
     {
         #region Navigations
@@ -46,25 +50,26 @@ namespace Conestoga_Virtual_Game_Store.Models
         public void Configure(EntityTypeBuilder<Member> builder)
         {
             builder
+                .HasDiscriminator<memberTypes>("member_type")
+                .HasValue<Member>(memberTypes.member)
+                .HasValue<Moderator>(memberTypes.moderator)
+                .HasValue<Employee>(memberTypes.employee);
+
+            builder
                 .HasMany(m => m.games)
                 .WithOne();
-            //One to Many Familyships
             builder
                 .HasMany(m => m.relatives0)
                 .WithOne();
             builder
                 .HasMany(m => m.relatives1)
                 .WithOne();
-
-            //One to Many Friendships
             builder
                 .HasMany(m => m.friends0)
                 .WithOne();
             builder
                 .HasMany(m => m.friends1)
                 .WithOne();
-
-            //One to Many Credit Cards
             builder
                 .HasMany(m => m.creditCards)
                 .WithOne();

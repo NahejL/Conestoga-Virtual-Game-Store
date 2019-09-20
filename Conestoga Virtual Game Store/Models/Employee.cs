@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Conestoga_Virtual_Game_Store.Models
 {
-    public class Employee : Table
+    public class Employee : Moderator
     {
+        public int EmployeeProp { get; set; }
         #region Navigations
         //Created Events
         public ICollection<Event> createdEvents { get; set; }

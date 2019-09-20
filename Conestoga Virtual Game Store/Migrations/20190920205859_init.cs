@@ -24,23 +24,12 @@ namespace ConestogaVirtualGameStore.Migrations
                 columns: table => new
                 {
                     id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    Discriminator = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Members", x => x.id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Moderators",
-                columns: table => new
-                {
-                    id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Moderators", x => x.id);
                 });
 
             migrationBuilder.CreateTable(
@@ -275,9 +264,9 @@ namespace ConestogaVirtualGameStore.Migrations
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Review_Moderators_Moderatorid",
+                        name: "FK_Review_Members_Moderatorid",
                         column: x => x.Moderatorid,
-                        principalTable: "Moderators",
+                        principalTable: "Members",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Restrict);
                 });
@@ -474,9 +463,6 @@ namespace ConestogaVirtualGameStore.Migrations
 
             migrationBuilder.DropTable(
                 name: "Event");
-
-            migrationBuilder.DropTable(
-                name: "Moderators");
 
             migrationBuilder.DropTable(
                 name: "Games");

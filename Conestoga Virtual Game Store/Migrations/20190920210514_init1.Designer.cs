@@ -4,14 +4,16 @@ using Conestoga_Virtual_Game_Store;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace ConestogaVirtualGameStore.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    partial class StoreDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190920210514_init1")]
+    partial class init1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -127,13 +129,14 @@ namespace ConestogaVirtualGameStore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("member_type");
+                    b.Property<string>("Discriminator")
+                        .IsRequired();
 
                     b.HasKey("id");
 
                     b.ToTable("Members");
 
-                    b.HasDiscriminator<int>("member_type").HasValue(0);
+                    b.HasDiscriminator<string>("Discriminator").HasValue("Member");
                 });
 
             modelBuilder.Entity("Conestoga_Virtual_Game_Store.Models.Order", b =>
@@ -258,7 +261,7 @@ namespace ConestogaVirtualGameStore.Migrations
 
                     b.ToTable("Moderator");
 
-                    b.HasDiscriminator().HasValue(1);
+                    b.HasDiscriminator().HasValue("Moderator");
                 });
 
             modelBuilder.Entity("Conestoga_Virtual_Game_Store.Models.Employee", b =>
@@ -269,7 +272,7 @@ namespace ConestogaVirtualGameStore.Migrations
 
                     b.ToTable("Employee");
 
-                    b.HasDiscriminator().HasValue(2);
+                    b.HasDiscriminator().HasValue("Employee");
                 });
 
             modelBuilder.Entity("Conestoga_Virtual_Game_Store.Models.Command", b =>

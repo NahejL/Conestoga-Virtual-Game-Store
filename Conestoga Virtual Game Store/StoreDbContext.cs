@@ -14,10 +14,7 @@ namespace Conestoga_Virtual_Game_Store
     {
         public StoreDbContext(DbContextOptions<StoreDbContext> options): base(options) { }
 
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-
-        }
+        protected override void OnModelCreating(ModelBuilder builder) { }
 
         #region Database Sets
         //Accessible Members

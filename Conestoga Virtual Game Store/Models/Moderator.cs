@@ -7,8 +7,9 @@ using System.Threading.Tasks;
 
 namespace Conestoga_Virtual_Game_Store.Models
 {
-    public class Moderator : Table
+    public class Moderator : Member
     {
+        public int ModeratorProp { get; set; }
         #region Navigations
         //validated Reviews
         public ICollection<Review> validatedReviews { get; set; }
