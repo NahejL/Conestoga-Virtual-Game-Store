@@ -41,7 +41,6 @@ namespace Conestoga_Virtual_Game_Store.Models
         public ICollection<Rating> ratings { get; set; }
         #endregion
     }
-
     public class MemberMap : IEntityTypeConfiguration<Member>
     {
         public void Configure(EntityTypeBuilder<Member> builder)

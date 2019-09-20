@@ -53,6 +53,17 @@ namespace ConestogaVirtualGameStore.Migrations
                     b.ToTable("CreditCard");
                 });
 
+            modelBuilder.Entity("Conestoga_Virtual_Game_Store.Models.Employee", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.HasKey("id");
+
+                    b.ToTable("Employees");
+                });
+
             modelBuilder.Entity("Conestoga_Virtual_Game_Store.Models.Event", b =>
                 {
                     b.Property<int>("id")
@@ -127,14 +138,20 @@ namespace ConestogaVirtualGameStore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
-
                     b.HasKey("id");
 
                     b.ToTable("Members");
+                });
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Member");
+            modelBuilder.Entity("Conestoga_Virtual_Game_Store.Models.Moderator", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.HasKey("id");
+
+                    b.ToTable("Moderators");
                 });
 
             modelBuilder.Entity("Conestoga_Virtual_Game_Store.Models.Order", b =>
@@ -249,26 +266,6 @@ namespace ConestogaVirtualGameStore.Migrations
                     b.HasIndex("Memberid");
 
                     b.ToTable("Wish");
-                });
-
-            modelBuilder.Entity("Conestoga_Virtual_Game_Store.Models.Moderator", b =>
-                {
-                    b.HasBaseType("Conestoga_Virtual_Game_Store.Models.Member");
-
-
-                    b.ToTable("Moderator");
-
-                    b.HasDiscriminator().HasValue("Moderator");
-                });
-
-            modelBuilder.Entity("Conestoga_Virtual_Game_Store.Models.Employee", b =>
-                {
-                    b.HasBaseType("Conestoga_Virtual_Game_Store.Models.Moderator");
-
-
-                    b.ToTable("Employee");
-
-                    b.HasDiscriminator().HasValue("Employee");
                 });
 
             modelBuilder.Entity("Conestoga_Virtual_Game_Store.Models.Command", b =>

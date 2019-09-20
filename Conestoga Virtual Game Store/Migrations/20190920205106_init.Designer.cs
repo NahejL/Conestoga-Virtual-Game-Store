@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ConestogaVirtualGameStore.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    [Migration("20190920201640_mig6")]
-    partial class mig6
+    [Migration("20190920205106_init")]
+    partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -53,6 +53,17 @@ namespace ConestogaVirtualGameStore.Migrations
                     b.HasIndex("Memberid");
 
                     b.ToTable("CreditCard");
+                });
+
+            modelBuilder.Entity("Conestoga_Virtual_Game_Store.Models.Employee", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.HasKey("id");
+
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("Conestoga_Virtual_Game_Store.Models.Event", b =>
@@ -120,7 +131,7 @@ namespace ConestogaVirtualGameStore.Migrations
 
                     b.HasIndex("Employeeid");
 
-                    b.ToTable("games");
+                    b.ToTable("Games");
                 });
 
             modelBuilder.Entity("Conestoga_Virtual_Game_Store.Models.Member", b =>
@@ -129,14 +140,20 @@ namespace ConestogaVirtualGameStore.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired();
+                    b.HasKey("id");
+
+                    b.ToTable("Members");
+                });
+
+            modelBuilder.Entity("Conestoga_Virtual_Game_Store.Models.Moderator", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.HasKey("id");
 
-                    b.ToTable("members");
-
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Member");
+                    b.ToTable("Moderators");
                 });
 
             modelBuilder.Entity("Conestoga_Virtual_Game_Store.Models.Order", b =>
@@ -253,26 +270,6 @@ namespace ConestogaVirtualGameStore.Migrations
                     b.ToTable("Wish");
                 });
 
-            modelBuilder.Entity("Conestoga_Virtual_Game_Store.Models.Moderator", b =>
-                {
-                    b.HasBaseType("Conestoga_Virtual_Game_Store.Models.Member");
-
-
-                    b.ToTable("Moderator");
-
-                    b.HasDiscriminator().HasValue("Moderator");
-                });
-
-            modelBuilder.Entity("Conestoga_Virtual_Game_Store.Models.Employee", b =>
-                {
-                    b.HasBaseType("Conestoga_Virtual_Game_Store.Models.Moderator");
-
-
-                    b.ToTable("Employee");
-
-                    b.HasDiscriminator().HasValue("Employee");
-                });
-
             modelBuilder.Entity("Conestoga_Virtual_Game_Store.Models.Command", b =>
                 {
                     b.HasOne("Conestoga_Virtual_Game_Store.Models.Game")
@@ -337,7 +334,7 @@ namespace ConestogaVirtualGameStore.Migrations
             modelBuilder.Entity("Conestoga_Virtual_Game_Store.Models.Ownership", b =>
                 {
                     b.HasOne("Conestoga_Virtual_Game_Store.Models.Game")
-                        .WithMany("members")
+                        .WithMany("owners")
                         .HasForeignKey("Gameid");
 
                     b.HasOne("Conestoga_Virtual_Game_Store.Models.Member")

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Conestoga_Virtual_Game_Store.Models
 {
-    public class Moderator : Member
+    public class Moderator : Table
     {
         #region Navigations
         //validated Reviews
