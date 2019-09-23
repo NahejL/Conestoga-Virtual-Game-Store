@@ -59,9 +59,15 @@ namespace Conestoga_Virtual_Game_Store
 
             app.UseMvc(routes =>
             {
+                /*
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    "fetchGames", "/fetchGames/{*data}",
+                    defaults: new { controller = "Home", action = "about"});
+                */
+                routes.MapRoute(
+                    "main", "/{*data}",
+                    defaults: new { controller = "Home", action = "index" });
+                 
             });
         }
     }

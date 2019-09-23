@@ -14,6 +14,7 @@ namespace Conestoga_Virtual_Game_Store.Models
     }
     public class Member : Table
     {
+
         #region Navigations
         //Owned Games 
         public ICollection<Ownership> games { get; set; }

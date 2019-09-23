@@ -5,14 +5,26 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Conestoga_Virtual_Game_Store.Models;
+/*
+ * https://docs.microsoft.com/en-us/aspnet/core/mvc/controllers/routing?view=aspnetcore-3.0
+ https://docs.microsoft.com/en-us/aspnet/core/mvc/models/model-binding?view=aspnetcore-3.0
+ https://docs.microsoft.com/en-us/aspnet/core/fundamentals/routing?view=aspnetcore-3.0#route-template-reference
+ *  *  */
 
 namespace Conestoga_Virtual_Game_Store.Controllers
 {
     public class HomeController : Controller
     {
+        [Route("/")]
         public IActionResult Index()
         {
             return View();
+        }
+
+        [Route("/test")]
+        public IActionResult Fetch()
+        {
+            return Json(new { foo = "bar" });
         }
 
         public IActionResult About()
