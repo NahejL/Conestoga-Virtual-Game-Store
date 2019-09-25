@@ -11,6 +11,10 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Conestoga_Virtual_Game_Store;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OData.Edm;
+using Microsoft.AspNet.OData.Builder;
+using Conestoga_Virtual_Game_Store.Models;
+using Microsoft.AspNet.OData.Extensions;
 
 namespace Conestoga_Virtual_Game_Store
 {
@@ -23,7 +27,7 @@ namespace Conestoga_Virtual_Game_Store
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
+        // Add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<CookiePolicyOptions>(options =>
@@ -38,11 +42,24 @@ namespace Conestoga_Virtual_Game_Store
 
 
             services.AddDbContext<StoreDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("GameStoreDB")));
+
+
+            services.AddOData();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+        //Configure OData Service. Gets Called by Mvc routes
+        public IEdmModel GetEdmModel()
+        {
+            ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
+            builder.EntitySet<Game>("Games");
+            builder.EntitySet<Member>("Members");
+            return builder.GetEdmModel();
+        }
+
+        // Configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            #region DoNotTouch
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -56,14 +73,12 @@ namespace Conestoga_Virtual_Game_Store
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCookiePolicy();
+            #endregion
 
             app.UseMvc(routes =>
             {
-                /*
-                routes.MapRoute(
-                    "fetchGames", "/fetchGames/{*data}",
-                    defaults: new { controller = "Home", action = "about"});
-                */
+                routes.Select().Expand().Filter().OrderBy().MaxTop(64).Count();
+                routes.MapODataServiceRoute("odata", "odata", GetEdmModel());
                 routes.MapRoute(
                     "main", "/{*data}",
                     defaults: new { controller = "Home", action = "index" });
