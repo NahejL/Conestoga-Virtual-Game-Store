@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
@@ -45,6 +46,7 @@ namespace Conestoga_Virtual_Game_Store.Models
         //Ratings
         public ICollection<Rating> ratings { get; set; }
         #endregion
+
     }
     public class MemberMap : IEntityTypeConfiguration<Member>
     {

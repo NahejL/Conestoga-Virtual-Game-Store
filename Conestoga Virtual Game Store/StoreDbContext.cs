@@ -7,14 +7,17 @@ using Conestoga_Virtual_Game_Store.Models;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
 using System.IO;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
 namespace Conestoga_Virtual_Game_Store
 {
-    public class StoreDbContext : DbContext
+    public class StoreDbContext : IdentityDbContext
     {
         public StoreDbContext(DbContextOptions<StoreDbContext> options): base(options) { }
 
-        protected override void OnModelCreating(ModelBuilder builder) { }
+        protected override void OnModelCreating(ModelBuilder builder) {
+            base.OnModelCreating(builder); 
+        }
 
         #region Database Sets
         //Accessible Members

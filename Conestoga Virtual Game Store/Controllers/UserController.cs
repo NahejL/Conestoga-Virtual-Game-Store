@@ -5,44 +5,44 @@ using System.Threading.Tasks;
 using Conestoga_Virtual_Game_Store.Models;
 using Microsoft.AspNet.OData;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Conestoga_Virtual_Game_Store.Controllers
 {
-    public class GamesController : ODataController
+    public class UserController : ODataController
     {
+        #region Constructor
         //Db connection
         private StoreDbContext _db;
 
         //Constructor
-        public GamesController(StoreDbContext context)
+        public UserController(StoreDbContext context)
         {
-           _db = context;
+            _db = context;
         }
-
-        //SELECT games
+        #endregion
+        //SELECT users
         [EnableQuery]
         public IActionResult Get()
         {
             return Ok(_db.Games);
         }
 
-        //SELECT games WHERE game.id = id
+        //SELECT user WHERE user.name = name
         [EnableQuery]
-        public IActionResult Get(int id)
+        public IActionResult Get(string name)
         {
-            return Ok(_db.Games.FirstOrDefault( g => g.id == id));
+            return Ok(_db.Games.FirstOrDefault(g => g.id.ToString() == name));
         }
 
-        //INSERTE () INTO games
-        //[Authorize("Employee")]
+        //INSERTE () INTO users
+        [Authorize("Employee")]
         [EnableQuery]
-        public IActionResult Post([FromBody]Game game)
+        public IActionResult Post([FromBody]User user)
         {
-            _db.Add(game);
+            _db.Add(user);
             _db.SaveChanges();
-            return Created(game);
+            return Created(user);
         }
     }
 }

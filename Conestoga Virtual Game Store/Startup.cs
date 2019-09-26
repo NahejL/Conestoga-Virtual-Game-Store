@@ -15,6 +15,7 @@ using Microsoft.OData.Edm;
 using Microsoft.AspNet.OData.Builder;
 using Conestoga_Virtual_Game_Store.Models;
 using Microsoft.AspNet.OData.Extensions;
+using Microsoft.AspNetCore.Identity;
 
 namespace Conestoga_Virtual_Game_Store
 {
@@ -45,6 +46,10 @@ namespace Conestoga_Virtual_Game_Store
 
 
             services.AddOData();
+
+
+            services.AddIdentity<User, Role>()
+                .AddEntityFrameworkStores<StoreDbContext>();
         }
 
         //Configure OData Service. Gets Called by Mvc routes
@@ -74,6 +79,8 @@ namespace Conestoga_Virtual_Game_Store
             app.UseStaticFiles();
             app.UseCookiePolicy();
             #endregion
+
+            app.UseAuthentication();
 
             app.UseMvc(routes =>
             {
