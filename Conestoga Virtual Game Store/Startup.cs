@@ -16,18 +16,21 @@ using Microsoft.AspNet.OData.Builder;
 using Conestoga_Virtual_Game_Store.Models;
 using Microsoft.AspNet.OData.Extensions;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace Conestoga_Virtual_Game_Store
 {
     public class Startup
     {
+        #region hide
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
         }
 
         public IConfiguration Configuration { get; }
-
+        #endregion
         // Add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -39,17 +42,46 @@ namespace Conestoga_Virtual_Game_Store
             });
 
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.AccessDeniedPath = new PathString("/");
+            });
 
 
-            services.AddDbContext<StoreDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("GameStoreDB")));
+            services.AddMvc( options => 
+            {
+                var policy = new AuthorizationPolicyBuilder()
+                    .RequireAuthenticatedUser()
+                    .Build();
+
+                options.Filters.Add(new AuthorizeFilter(policy));
+
+            }).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+
+
+            services.AddDbContext<StoreDbContext>(options => 
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("GameStoreDB"));   
+            });
 
 
             services.AddOData();
 
 
-            services.AddIdentity<User, Role>()
-                .AddEntityFrameworkStores<StoreDbContext>();
+            services.AddIdentity<User, Role>(options =>
+            {
+                //Configure password requirements
+                options.Password.RequiredLength = 8;
+            }).AddEntityFrameworkStores<StoreDbContext>();
+
+
+            services.AddAuthorization(options => 
+            {
+                options.AddPolicy("DeleteRolePolicy", policy => policy.RequireClaim("Delete Role"));
+            });
+
+
+
         }
 
         //Configure OData Service. Gets Called by Mvc routes
@@ -57,7 +89,7 @@ namespace Conestoga_Virtual_Game_Store
         {
             ODataConventionModelBuilder builder = new ODataConventionModelBuilder();
             builder.EntitySet<Game>("Games");
-            builder.EntitySet<Member>("Members");
+            builder.EntitySet<User>("Users");
             return builder.GetEdmModel();
         }
 

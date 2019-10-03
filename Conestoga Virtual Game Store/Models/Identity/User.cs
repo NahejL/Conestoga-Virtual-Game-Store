@@ -3,23 +3,23 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace Conestoga_Virtual_Game_Store.Models
 {
-    enum memberTypes
+    public class User : IdentityUser
     {
-        member, moderator, employee
-    }
-    public class Member : Table
-    {
+
+        //Navigation to Identity Roles
+        public ICollection<UserRole> UserRoles { get; set; }
 
         #region Navigations
         //Owned Games 
         public ICollection<Ownership> games { get; set; }
-        
+
         //Relatives 
         public ICollection<Familyship> relatives0 { get; set; }
         public ICollection<Familyship> relatives1 { get; set; }
@@ -46,18 +46,23 @@ namespace Conestoga_Virtual_Game_Store.Models
         //Ratings
         public ICollection<Rating> ratings { get; set; }
         #endregion
-
     }
-    public class MemberMap : IEntityTypeConfiguration<Member>
+    public class UserMap : IEntityTypeConfiguration<User>
     {
-        public void Configure(EntityTypeBuilder<Member> builder)
+        public void Configure(EntityTypeBuilder<User> builder)
         {
+            /*
             builder
                 .HasDiscriminator<memberTypes>("member_type")
                 .HasValue<Member>(memberTypes.member)
                 .HasValue<Moderator>(memberTypes.moderator)
                 .HasValue<Employee>(memberTypes.employee);
-
+            */
+            builder
+                .HasMany(m => m.UserRoles)
+                .WithOne()
+                .IsRequired()
+                .OnDelete(DeleteBehavior.Restrict);
             builder
                 .HasMany(m => m.games)
                 .WithOne();

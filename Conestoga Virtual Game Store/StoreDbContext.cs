@@ -23,11 +23,15 @@ namespace Conestoga_Virtual_Game_Store
         //Accessible Members
         public DbSet<Game> Games { get; set; }
 
-        public DbSet<Member> Members { get; set; }
+        public DbSet<User> Users { get; set; }
 
-        public DbSet<Moderator> Moderators { get; set; }
+        public DbSet<Command> Command { get; set; }
 
-        public DbSet<Employee> Employees { get; set; }
+        public DbSet<CreditCard> CreditCard { get; set; }
+
+        public DbSet<Event> Event { get; set; }
+
+        public DbSet<Role> Role { get; set; }
         #endregion
 
     }
